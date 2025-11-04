@@ -3,8 +3,29 @@ import pickle
 import numpy as np
 
 # Load the trained model
-with open("best_model.pkl", "rb") as file:
-    model = pickle.load(file)
+# Make sure your 'best_model.pkl' file is in the same directory
+try:
+    with open("best_model.pkl", "rb") as file:
+        model = pickle.load(file)
+except FileNotFoundError:
+    st.error("Error: 'best_model.pkl' not found. Please ensure the model file is in the same directory.")
+    model = None  # Set model to None to prevent errors later
+
+# --- LEFT SIDEBAR (NEW ADDITION) ---
+st.sidebar.title("👨‍💻 Developer Info")
+st.sidebar.markdown("""
+### Tejas Gholap
+""")
+
+# Replace the placeholders below with your actual links
+st.sidebar.markdown("""
+**LinkedIn:** [Your LinkedIn Profile](https://www.linkedin.com/in/tejas-gholap-bb3417300/)
+""")
+st.sidebar.markdown("""
+**GitHub:** [Your GitHub Profile](https://github.com/tejasgholap45)
+""")
+st.sidebar.markdown("---")
+# --- END OF SIDEBAR ---
 
 st.title("🏥 Medical Insurance Charges Predictor")
 
@@ -28,5 +49,8 @@ input_data = np.array([[age, bmi, smoker_yes]])
 
 # Predict charges
 if st.button("Predict Charges"):
-    prediction = model.predict(input_data)
-    st.success(f"💰 Estimated Medical Charges: **${prediction[0]:,.2f}**")
+    if model:
+        prediction = model.predict(input_data)
+        st.success(f"💰 Estimated Medical Charges: **${prediction[0]:,.2f}**")
+    else:
+        st.warning("Prediction cannot be made because the model file was not loaded.")
