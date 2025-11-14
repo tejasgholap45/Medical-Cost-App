@@ -104,8 +104,11 @@ http://localhost:8501
 
 ```
 streamlit
+scikit-learn
 numpy
+pandas
 pickle5
+
 ```
 ---
 
